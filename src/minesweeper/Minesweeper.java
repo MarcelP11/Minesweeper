@@ -26,5 +26,9 @@ public class Minesweeper {
      */
     public static void main(String[] args) {
         new Minesweeper();
+        System.out.println("Hello "+System.getProperty(user.name));
+        Field novePole = new Field(3,3,3);
     }
+
+
 }

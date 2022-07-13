@@ -22,4 +22,12 @@ public class Clue extends Tile {
     public int getValue() {   //pridanie gettera - uloha 1
         return value;
     }
+
+    /* dokoncit
+    @Override
+    public String toString() {
+        return String.valueOf();
+    }
+
+     */
 }
