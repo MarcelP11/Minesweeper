@@ -3,12 +3,16 @@ package minesweeper.consoleui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import minesweeper.UserInterface;
 import minesweeper.core.Field;
+import minesweeper.core.Mine;
+import minesweeper.core.Tile;
 
 /**
  * Console user interface.
  */
-public class ConsoleUI {
+public class ConsoleUI implements UserInterface {
     /** Playing field. */
     private Field field;
     
@@ -31,6 +35,7 @@ public class ConsoleUI {
      * Starts the game.
      * @param field field of mines and clues
      */
+    @Override
     public void newGameStarted(Field field) {
         this.field = field;
         do {
@@ -43,9 +48,29 @@ public class ConsoleUI {
     /**
      * Updates user interface - prints the field.
      */
+    @Override
     public void update() {
-        throw new UnsupportedOperationException("Method update not yet implemented");
-    }
+        //throw new UnsupportedOperationException("Method update not yet implemented");
+        String columnIndex="  ";
+        for (int i = 0; i < field.getColumnCount(); i++) {
+            columnIndex+=i+" ";
+        }
+        System.out.println(columnIndex);
+        char c= 6+64;
+        for (int i = 0; i < field.getRowCount(); i++) {
+            String rowValues=c+" ";
+            for (int j = 0; j < field.getColumnCount(); j++) {
+                (if field.getTile(i,j).getState() == Tile.State.OPEN && field.getTile(i,j)= instanceof Mine ){
+                    rowValues+="X ";
+                }
+                }
+
+            }
+
+        }
+
+
+
     
     /**
      * Processes user input.

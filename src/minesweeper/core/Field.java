@@ -113,12 +113,7 @@ public class Field {
     private void generate() {
         //throw new UnsupportedOperationException("Method generate not yet implemented");
         System.out.println("kontrolny vypis");
-
-
-
-
         Random randomNumber = new Random();  //novy objekt triedy Random
-
 
         // naplnime ich minami
         for (int i = 0; i < mineCount; ) {   //ak sme v rovnakej triede tak nemusime pouzivat getter ale rovno privatnu premennu
@@ -141,13 +136,30 @@ public class Field {
         System.out.println();
     }
 
+    private int getNumberOf() {
+        int countNumber = 0;
+        for (int i = 0; i < rowCount; i++) {  //
+            for (int j = 0; j < columnCount; j++) {
+                if (tiles[i][j].getState() == Tile.State.OPEN) {
+                    countNumber++;
+                }
+            }
+        }
+        return countNumber;
+    }
+
     /**
      * Returns true if game is solved, false otherwise.
      *
      * @return true if game is solved, false otherwise
      */
     private boolean isSolved() {
-        throw new UnsupportedOperationException("Method isSolved not yet implemented");
+        //throw new UnsupportedOperationException("Method isSolved not yet implemented");
+        boolean solveStatus = false;
+        if ((rowCount * columnCount) - getNumberOf() == mineCount) {
+            solveStatus = true;
+        }
+        return solveStatus;
     }
 
     /**
