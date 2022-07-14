@@ -49,6 +49,7 @@ public class Field {
         //generate the field content
         generate();  //funkcia sa generuje priamo v konstruktore
 
+
 //vypis
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles[i].length; j++) {
@@ -62,6 +63,7 @@ public class Field {
             System.out.println();
         }
     }
+
 
     //metoda vrati dlazdicu podla zadaneho riadku a stlpca - uloha 3
     public Tile getTile(int row, int column) {
@@ -112,7 +114,7 @@ public class Field {
      */
     private void generate() {
         //throw new UnsupportedOperationException("Method generate not yet implemented");
-        System.out.println("kontrolny vypis");
+        System.out.println("Hra sa zacina");
         Random randomNumber = new Random();  //novy objekt triedy Random
 
         // naplnime ich minami

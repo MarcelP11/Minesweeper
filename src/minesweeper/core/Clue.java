@@ -23,11 +23,9 @@ public class Clue extends Tile {
         return value;
     }
 
-    /* dokoncit
+
     @Override
     public String toString() {
-        return String.valueOf();
+        return String.valueOf(value);
     }
-
-     */
 }

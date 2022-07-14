@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import minesweeper.UserInterface;
+import minesweeper.core.Clue;
 import minesweeper.core.Field;
 import minesweeper.core.Mine;
 import minesweeper.core.Tile;
@@ -56,19 +57,24 @@ public class ConsoleUI implements UserInterface {
             columnIndex+=i+" ";
         }
         System.out.println(columnIndex);
-        char c= 6+64;
+        char c= 65;
         for (int i = 0; i < field.getRowCount(); i++) {
             String rowValues=c+" ";
             for (int j = 0; j < field.getColumnCount(); j++) {
-                (if field.getTile(i,j).getState() == Tile.State.OPEN && field.getTile(i,j)= instanceof Mine ){
-                    rowValues+="X ";
-                }
-                }
+                Tile t = field.getTile(i, j);
 
+                if(t.getState() == Tile.State.OPEN) {
+                  rowValues += t;
+                } else if (t.getState()==Tile.State.MARKED){
+                    rowValues+="M ";
+                } else if (t.getState()==Tile.State.CLOSED){
+                    rowValues+="- ";
+                }
             }
-
+            System.out.printf("%s%n",rowValues);
+            c++;
         }
-
+    }
 
 
     

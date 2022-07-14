@@ -8,16 +8,16 @@ import minesweeper.core.Field;
  */
 public class Minesweeper {
     /** User interface. */
-    private ConsoleUI UserInterface;
+    private UserInterface userInterface;
  
     /**
      * Constructor.
      */
     private Minesweeper() {
-        UserInterface = new ConsoleUI();
-        
+        userInterface = new ConsoleUI();
+        System.out.println("Hello "+ System.getProperty("user.name"));  //hodnota user.name do uvodzoviek
         Field field = new Field(5, 5, 10);
-        UserInterface.newGameStarted(field);
+        userInterface.newGameStarted(field);
     }
 
     /**
@@ -26,8 +26,8 @@ public class Minesweeper {
      */
     public static void main(String[] args) {
         new Minesweeper();
-        System.out.println("Hello "+ System.getProperty("user.name"));  //hodnota user.name do uvodzoviek
-        Field novePole = new Field(5,3,3);
+
+        //Field novePole = new Field(5,3,3);
     }
 
 
