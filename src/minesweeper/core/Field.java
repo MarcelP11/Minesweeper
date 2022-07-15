@@ -50,7 +50,7 @@ public class Field {
         generate();  //funkcia sa generuje priamo v konstruktore
 
 
-//vypis
+//vypis na kontrolu - zakomentovat potom cely
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles[i].length; j++) {
                 if (tiles[i][j] instanceof Mine) {  //ak je na danej dlazdici Mina tak sa vypise x

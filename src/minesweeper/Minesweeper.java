@@ -7,28 +7,27 @@ import minesweeper.core.Field;
  * Main application class.
  */
 public class Minesweeper {
-    /** User interface. */
+    /**
+     * User interface.
+     */
     private UserInterface userInterface;
- 
+
     /**
      * Constructor.
      */
     private Minesweeper() {
         userInterface = new ConsoleUI();
-        System.out.println("Hello "+ System.getProperty("user.name"));  //hodnota user.name do uvodzoviek
-        Field field = new Field(5, 5, 10);
+        System.out.println("Hello " + System.getProperty("user.name"));  //hodnota user.name do uvodzoviek
+        Field field = new Field(5, 5, 3);
         userInterface.newGameStarted(field);
     }
 
     /**
      * Main method.
+     *
      * @param args arguments
      */
     public static void main(String[] args) {
         new Minesweeper();
-
-        //Field novePole = new Field(5,3,3);
     }
-
-
 }
