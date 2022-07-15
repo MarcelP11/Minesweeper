@@ -121,42 +121,53 @@ public class ConsoleUI implements UserInterface {
         // throw new UnsupportedOperationException("Method processInput not yet implemented");
         System.out.println("Game instructions: X - game exit, MA1 - mark tile in row A and column 1, OB4 - open tile in row B and column 4");  //vypis informacie pre pouzivatela ako hrat
         String input = readLine();  //nacitanie vstupu od pouzivatela do premennej line
-
-        //Pattern pre OPEN
-        Pattern patternOpen = Pattern.compile("^[o]{1}([A-E]{1})([0-4]{1})", Pattern.CASE_INSENSITIVE);
-        //triedu Pattern trebalo naimportovat
-        Matcher matcherOpen = patternOpen.matcher(input);
-        if (matcherOpen.matches()) {
-            int row = matcherOpen.group(1).charAt(0) - 'a';
-            int column = Integer.parseInt(matcherOpen.group(2));
-            field.openTile(row, column);  //zavola sa metoda na otvorenie miny v ktorej je podmienka ak sa natrafi na minu tak hra spadne
-        }
-
-        //Pattern pre MARK
-        Pattern patternMark = Pattern.compile("^[m]{1}([A-E]{1})([0-4]{1})", Pattern.CASE_INSENSITIVE);
-        //triedu Pattern trebalo naimportovat
-        Matcher matcherMark = patternMark.matcher(input);
-        if (matcherMark.matches()) {
-            int row = matcherMark.group(1).charAt(0) - 'a';
-            int column = Integer.parseInt(matcherMark.group(2));
-            field.markTile(row, column);   //zavola sa metoda na marknutie miny v ktorej je podmienka ak je oznacena sa odznaci a naopak
-        }
-
-        //Pattern pre EXIT
-        Pattern patternExit = Pattern.compile("[x]{1}", Pattern.CASE_INSENSITIVE);
-        //triedu Pattern trebalo naimportovat
-        Matcher matcherExit = patternExit.matcher(input);
-        if (matcherExit.matches()) {
-            System.exit(0);    //prikaz na ukoncenie programu
-        }
-
-        //Pattern pre wrong
-        //  Pattern patternWrong = Pattern.compile("([x]{2,}|[^x,m,o]{1,})|([^m,o]{1}[^A-E]{1,}[^0-4]{1,})", Pattern.CASE_INSENSITIVE);  //matchuje pri zadani ma1
-        //Matcher matcherWrong = patternWrong.matcher(input);
-        //  if (matcherWrong.matches())
-        if (!(matcherOpen.matches() || matcherMark.matches() || matcherExit.matches())) {
-            System.out.println("Wrong input. Try again.");  //ak zada zle vypise sa do konzoly informacia pre uzivatela
-            //readLine();  //znova sa spusti funkcia na citanie vstupu od uzivatela - netreba
+        try {
+            handleInput(input);   //zavolam funkciu ktora sa skusa a v ktorej je novy objekt vynimky pri if kde by mala byt chyba
+        } catch (WrongFormatException e) {  //ak sa vygeneruje chyba tak ju sem zachytime a v tomto bloku sa vypise na obrazovku obsah spravy chyby
+            System.out.println(e.getMessage());;
+            processInput(); //ak vyskoci chyba tak chceme nanovo spracovat vstup
         }
     }
+
+    void handleInput(String input) throws WrongFormatException{   //throws WrongFromatException znamena ze sa moze vyskytnut chyba ciza tato klasa
+            //Pattern pre OPEN
+            Pattern patternOpen = Pattern.compile("^[o]{1}([A-E]{1})([0-4]{1})", Pattern.CASE_INSENSITIVE);
+            //triedu Pattern trebalo naimportovat
+            Matcher matcherOpen = patternOpen.matcher(input);
+            if (matcherOpen.matches()) {
+                int row = matcherOpen.group(1).charAt(0) - 'a';
+                int column = Integer.parseInt(matcherOpen.group(2));
+                field.openTile(row, column);  //zavola sa metoda na otvorenie miny v ktorej je podmienka ak sa natrafi na minu tak hra spadne
+            }
+
+            //Pattern pre MARK
+            Pattern patternMark = Pattern.compile("^[m]{1}([A-E]{1})([0-4]{1})", Pattern.CASE_INSENSITIVE);
+            //triedu Pattern trebalo naimportovat
+            Matcher matcherMark = patternMark.matcher(input);
+            if (matcherMark.matches()) {
+                int row = matcherMark.group(1).charAt(0) - 'a';
+                int column = Integer.parseInt(matcherMark.group(2));
+                field.markTile(row, column);   //zavola sa metoda na marknutie miny v ktorej je podmienka ak je oznacena sa odznaci a naopak
+            }
+
+            //Pattern pre EXIT
+            Pattern patternExit = Pattern.compile("[x]{1}", Pattern.CASE_INSENSITIVE);
+            //triedu Pattern trebalo naimportovat
+            Matcher matcherExit = patternExit.matcher(input);
+            if (matcherExit.matches()) {
+                System.exit(0);    //prikaz na ukoncenie programu
+            }
+
+            //Pattern pre wrong
+           // Pattern patternWrong = Pattern.compile("([x]{2,}|[^x,m,o]{1,})|([^m,o]{1}[^A-E]{1,}[^0-4]{1,})", Pattern.CASE_INSENSITIVE);  //matchuje pri zadani ma1
+            //Matcher matcherWrong = patternWrong.matcher(input);
+            //if (matcherWrong.matches())
+                if (!(matcherOpen.matches() || matcherMark.matches() || matcherExit.matches())) {
+                    throw new WrongFormatException("Zly vystup");
+                    // System.out.println("Wrong input. Try again.");  //ak zada zle vypise sa do konzoly informacia pre uzivatela
+                    //readLine();  //znova sa spusti funkcia na citanie vstupu od uzivatela - netreba
+                    // }
+                }
+    }
 }
+
