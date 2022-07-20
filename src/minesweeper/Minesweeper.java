@@ -11,28 +11,34 @@ public class Minesweeper {
      * User interface.
      */
     private UserInterface userInterface;
-    private long startMillis;
+    private long startMillis = System.currentTimeMillis();
 
 
-//private BestTimes bestTimes=
+    private BestTimes bestTimes = new BestTimes();
     private static Minesweeper instance;
 
-//public static
+    public static Minesweeper getInstance() {
+        if (instance == null) {
+            new Minesweeper();
+        }
+        return instance;
+    }
 
     /**
      * Constructor.
      */
     private Minesweeper() {
-        startMillis=System.currentTimeMillis();
+        instance = this;  //singleton
         userInterface = new ConsoleUI();
         System.out.println("Hello " + System.getProperty("user.name"));  //hodnota user.name do uvodzoviek
         Field field = new Field(5, 5, 3);
         userInterface.newGameStarted(field);
-
+        bestTimes.addPlayerTime(System.getProperty("user.name"),getPlayingSeconds());  //prida hraca s menom a sekundami
+        System.out.println(bestTimes.toString());  //vypise tabulku
     }
 
-    public int getPlayingSeconds(){
-        return ((int)(System.currentTimeMillis()-startMillis)/1000);
+    public int getPlayingSeconds() {
+        return ((int) (System.currentTimeMillis() - startMillis) / 1000);
     }
 
     /**
@@ -43,7 +49,5 @@ public class Minesweeper {
     public static void main(String[] args) {
         new Minesweeper();
     }
-    public static Minesweeper getInstance() {
-        return instance;
-    }
+
 }

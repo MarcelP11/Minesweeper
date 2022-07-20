@@ -11,5 +11,5 @@ public class Mine extends Tile {
         }
         return super.toString();
     }
-}
+s}
 

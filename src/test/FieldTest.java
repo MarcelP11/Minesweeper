@@ -36,19 +36,46 @@ public class FieldTest {
         assertEquals(GameState.PLAYING, field.getState(), "wrong state");
     }
 
-    //@Test
-    //dokoncit
-
-/*    public void checkMarkTile() {
+    @Test
+    public void checkMarkTile() {
         int row = 5, col = 5;
+        //field.markTile(row, col);
+        //assertEquals(Tile.State.CLOSED, field.getTile(row,col).getState());
         field.markTile(row, col);
+        assertEquals(Tile.State.MARKED, field.getTile(row, col).getState());  //tu vyjde test, pri ostatnych nie
+        // field.markTile(row,col);
+        //assertEquals(Tile.State.CLOSED, field.getTile(row,col).getState());
+        // field.openTile(row,col);
+        //assertEquals(Tile.State.OPEN, field.getTile(row,col).getState());
+        // field.markTile(row,col);
+        //  assertEquals(Tile.State.CLOSED, field.getTile(row,col).getState());
+    }
 
+    /*
+    @Test
+    public void checkOpenClue() {
+        int r = 0, c = 0;
+        for (int i = 0; i <rowCount; i++){
+            for (int j = 0; j < columnCount; j++) {
+                c++;
+                if (field.getTile(r,c) ==0){
+                    return;
+                    field.openTile();
+                    field.get
+                }
+            }
+            r++;
+        }
 
-    assertEquals(Tile.State.MARKED, field.markTile(row,col));
-}
+        //Marknut si akukolvek neotvorenu dlazdicu a skusit si na nej open, ci ostava marknuta
+        int row = 2, col = 2;
+        field.markTile(row, col);
+        field.openTile(row, col);
+        assertEquals(Tile.State.MARKED, field.getTile(row, col).getState());
 
+    }
+*/
 
- */
     @Test
     public void checkMinesCount() {
         int minesCounter = 0;
@@ -69,7 +96,12 @@ public class FieldTest {
         Field fieldWithTooManyMines = null;
         int higherMineCount = rowCount * columnCount + randomGenerator.nextInt(10) + 1;
         try {
-            fieldWithTooManyMines = new Field(rowCount, columnCount, higherMineCount);
+            if (higherMineCount < (rowCount * columnCount)) {  //najprv otestujem ci vygenerovany random pocet min je mensi ako pocet vsetkych poli
+                fieldWithTooManyMines = new Field(rowCount, columnCount, higherMineCount);  //ak ano tam vytvorim novy objekt Field
+            } else {  //ak nie vyhodim vynimku
+                throw new RuntimeException("Fields with more mines than tiles should not be created");
+            }
+
         } catch (Exception e) {
             // field with more mines than tiles should not be created - it may fail on exception
         }

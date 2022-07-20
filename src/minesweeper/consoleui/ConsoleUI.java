@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import minesweeper.BestTimes;
 import minesweeper.Minesweeper;
 import minesweeper.UserInterface;
 import minesweeper.core.*;
@@ -56,12 +57,13 @@ public class ConsoleUI implements UserInterface {
             // throw new UnsupportedOperationException("Resolve the game state - winning or loosing condition.");
             if (field.getState() == GameState.SOLVED) {  //ak hrac vyhral hru vypise sa text o vyhre a skonci sa hra
                 System.out.println("You win!!!");
-                System.exit(0);
+                break;
             } else if (field.getState() == GameState.FAILED) {  //ak hrac prehral vypise sa text a skonci sa hra
                 System.out.println("You jumped on mine!!! You lose.");
-                System.exit(0);
+                break;
             }
         } while (true);
+
     }
 
     /**
@@ -96,6 +98,7 @@ public class ConsoleUI implements UserInterface {
             c++;
 
          */
+        System.out.printf("Cas hrania: %d s%n", Minesweeper.getInstance().getPlayingSeconds());
         System.out.printf(format, "");
         for (int c = 0; c < field.getColumnCount(); c++) {
             System.out.printf(format, c);
