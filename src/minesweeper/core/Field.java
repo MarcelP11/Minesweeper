@@ -81,6 +81,9 @@ public class Field {
         Tile tile = tiles[row][column];
         if (tile.getState() == Tile.State.CLOSED) {
             tile.setState(Tile.State.OPEN);
+            //riesime odkryvanie
+           // if (tile instanceof )
+            //doplnit kod
             if (tile instanceof Mine) {
                 setState(GameState.FAILED);
                 return;

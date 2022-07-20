@@ -14,8 +14,10 @@ public class Minesweeper {
     private long startMillis;
 
 
-
+//private BestTimes bestTimes=
     private static Minesweeper instance;
+
+//public static
 
     /**
      * Constructor.

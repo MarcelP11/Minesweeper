@@ -24,7 +24,14 @@ public class BestTimes implements Iterable<BestTimes.PlayerTime> {
      */
     public void addPlayerTime(String name, int time) {
        playerTimes.add(new PlayerTime(name,time));
+        Collections.sort(playerTimes); //po pridani sa zoradia hodnoty
 
+    }
+
+    void reset(){
+        for(PlayerTime pl : playerTimes){
+            playerTimes.remove(pl);
+        }
     }
 
     /**
@@ -32,29 +39,31 @@ public class BestTimes implements Iterable<BestTimes.PlayerTime> {
      * @return a string representation of the object
      */
     public String toString() {
-        Collections.sort(playerTimes);
-        String result="";
+        Formatter f = new Formatter();
         for(PlayerTime pl: playerTimes) {
-            Formatter f = new Formatter();
             f.format("%s    %s     %s%n", playerTimes.iterator(),pl.getTime(),pl.getName());
-            result+=f.toString();
             //throw new UnsupportedOperationException("Method toString not yet implemented");
         }
-        return result;
+        return f.toString();
     }
 
     /**
      * Player time.
      */
     public static class PlayerTime implements Comparable<PlayerTime> {
-        /** Player name. */
+        /**
+         * Player name.
+         */
         private final String name;
 
-        /** Playing time in seconds. */
+        /**
+         * Playing time in seconds.
+         */
         private final int time;
 
         /**
          * Constructor.
+         *
          * @param name player name
          * @param time playing game time in seconds
          */
@@ -73,12 +82,9 @@ public class BestTimes implements Iterable<BestTimes.PlayerTime> {
 
         @Override
         public int compareTo(PlayerTime o) {
-            return Integer.compare(this.time,o.getTime());
+            return Integer.compare(this.time, o.getTime());
         }
     }
-    void reset(){
-        for(PlayerTime pl : playerTimes){
-            playerTimes.remove(pl);
-        }
-    }
+
+    //vnorene triedy nakoniec, predtym overridnute, a predtym normalne
 }
