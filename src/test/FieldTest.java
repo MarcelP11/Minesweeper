@@ -56,7 +56,7 @@ public class FieldTest {
     public void checkOpenClue() {
         int r = 0, c = 0;
         for (int i = 0; i <rowCount; i++){
-            for (int j = 0; j < columnCount; j++) {
+            for (int j = 0; j < columnCount; j++) {   //cez instanceOf
                 c++;
                 if (field.getTile(r,c) ==0){
                     return;

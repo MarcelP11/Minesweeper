@@ -40,8 +40,12 @@ public class BestTimes implements Iterable<BestTimes.PlayerTime> {
      */
     public String toString() {
         Formatter f = new Formatter();
-        for(PlayerTime pl: playerTimes) {
-            f.format("%s    %s seconds     %s%n", playerTimes.iterator(),pl.getTime(),pl.getName());
+        Iterator<PlayerTime> it = iterator();
+        int index = 1;
+        while(it.hasNext()) {
+            PlayerTime pt = it.next();
+            f.format("%d.    %d seconds     %s%n", index, pt.getTime(),pt.getName());
+            index++;
             //throw new UnsupportedOperationException("Method toString not yet implemented");
         }
         return f.toString();

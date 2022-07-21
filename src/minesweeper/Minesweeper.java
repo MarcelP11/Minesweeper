@@ -2,6 +2,7 @@ package minesweeper;
 
 import minesweeper.consoleui.ConsoleUI;
 import minesweeper.core.Field;
+import minesweeper.core.GameState;
 
 /**
  * Main application class.
@@ -24,16 +25,23 @@ public class Minesweeper {
         return instance;
     }
 
+
     /**
      * Constructor.
      */
     private Minesweeper() {
         instance = this;  //singleton
+//pridany nejaky hraci na kontrolu ci porovnava
+        bestTimes.addPlayerTime("jano", 10);
+        bestTimes.addPlayerTime("peter", 1000000000);
+
         userInterface = new ConsoleUI();
         System.out.println("Hello " + System.getProperty("user.name"));  //hodnota user.name do uvodzoviek
         Field field = new Field(5, 5, 3);
         userInterface.newGameStarted(field);
-        bestTimes.addPlayerTime(System.getProperty("user.name"),getPlayingSeconds());  //prida hraca s menom a sekundami
+        if (field.getState() == GameState.SOLVED) {
+            bestTimes.addPlayerTime(System.getProperty("user.name"), getPlayingSeconds());  //prida hraca s menom a sekundami
+        }
         System.out.println(bestTimes.toString());  //vypise tabulku
     }
 
