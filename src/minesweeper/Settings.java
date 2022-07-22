@@ -30,7 +30,7 @@ public class Settings implements Serializable {
         try {
             oos = new ObjectOutputStream(new FileOutputStream(SETTING_FILE));  //vytvori sa objektovy outpustream ktory
             //je subor  SETTING_FILE
-            oos.writeObject(this);  //zapise sa settings do objektu - preco this?
+            oos.writeObject(this);  //zapise sa settings do objektu - preco this?  hodnoty tohto objektu, zapisuje do suboru ako object
         } catch (IOException e) {
             System.out.println("nepodarilo sa zapisat settings do objektu");
         } finally {
@@ -47,7 +47,7 @@ public class Settings implements Serializable {
         ObjectInputStream ois = null;  //na zaciatok ho iba vytvorime ale neinicializujeme
         try{
             ois = new ObjectInputStream(new FileInputStream(SETTING_FILE));  //vyskusame nacitat SETTING_FILE a ulozit do objctinputstream objektu
-            Settings s = (Settings) ois.readObject();  //pretypujeme na objekt Settings - preco este .readObject()?
+            Settings s = (Settings) ois.readObject();  //pretypujeme na objekt Settings - preco este .readObject()?, nacitame zo suboru, nacitany je Object a my to musime pretypovat na typ ktory musime vediet musi byt zhodny s tym co tam predtym islo
             return s;
         } catch (IOException e){
             System.out.println("nepodarilo sa otvoorit settings subor, nastavujem BEGINNER uroven");  //ak sa nepodari otvorit subor

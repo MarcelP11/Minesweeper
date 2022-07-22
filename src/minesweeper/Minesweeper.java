@@ -60,7 +60,7 @@ public void setLevel(){//nastavenie urovne zo vstupu
                 break;
             default: setting=getSetting();  //ak sa nezhoduje vstup ani s jednym tak ostane aktualna hodnota
         }
-
+setting.save();  //musi sa ulozit stav
     }
     /**
      * Constructor.
