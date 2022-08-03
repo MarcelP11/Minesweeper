@@ -16,7 +16,6 @@ public class Minesweeper {
      * User interface.
      */
     private UserInterface userInterface;
-    private long startMillis = System.currentTimeMillis();
 
 
     private BestTimes bestTimes = new BestTimes();
@@ -48,19 +47,23 @@ public class Minesweeper {
         return instance;
     }
 
-public void setLevel(){//nastavenie urovne zo vstupu
+    public BestTimes getBestTimes() {
+        return bestTimes;
+    }
+
+    public void setLevel(){//nastavenie urovne zo vstupu
     System.out.println("Zvol si uroven: 1 - BEGINNER, 2 - INTERMEDIATE, 3 - EXPERT");
     String inputLevel = readLine();
-        switch (inputLevel){
-            case "1": setting=Settings.BEGINNER;  //ak je jednotka tak sa nastavi BEGINNER atd
-                    break;
-            case "2": setting=Settings.INTERMEDIATE;
-                break;
-            case "3": setting=Settings.EXPERT;
-                break;
-            default: setting=getSetting();  //ak sa nezhoduje vstup ani s jednym tak ostane aktualna hodnota
-        }
-setting.save();  //musi sa ulozit stav
+    switch (inputLevel){
+        case "1": setting=Settings.BEGINNER;  //ak je jednotka tak sa nastavi BEGINNER atd
+            break;
+        case "2": setting=Settings.INTERMEDIATE;
+            break;
+        case "3": setting=Settings.EXPERT;
+            break;
+        default: setting=getSetting();  //ak sa nezhoduje vstup ani s jednym tak ostane aktualna hodnota
+    }
+
     }
     /**
      * Constructor.
@@ -68,23 +71,24 @@ setting.save();  //musi sa ulozit stav
     private Minesweeper() {
         instance = this;  //singleton
 //pridany nejaky hraci na kontrolu ci porovnava
+        setting=Settings.load();//premenna setting bude mat navratovu hodnotu metody load v triede Settings
+
         bestTimes.addPlayerTime("jano", 10);
         bestTimes.addPlayerTime("peter", 1000000000);
-        setting = Settings.load();  //premenna setting bude mat navratovu hodnotu metody load v triede Settings
-        setLevel();  //spusti sa metoda pre nastavenie levelu od pouzivatela
+
+        //setLevel();  //spusti sa metoda pre nastavenie levelu od pouzivatela, presunute do consoleUI
+        //setting.save();  //musi sa ulozit stav
         userInterface = new ConsoleUI();
-        System.out.println("Hello " + System.getProperty("user.name"));  //hodnota user.name do uvodzoviek
+        //System.out.println("Hello " + System.getProperty("user.name"));  //hodnota user.name do uvodzoviek
         Field field = new Field(setting.getRowCount(), setting.getColumnCount(), setting.getMineCount());  //nastavime hodnoty pola podla toho co je v nastaveni
         userInterface.newGameStarted(field);
-        if (field.getState() == GameState.SOLVED) {
-            bestTimes.addPlayerTime(System.getProperty("user.name"), getPlayingSeconds());  //prida hraca s menom a sekundami
-        }
+       // if (field.getState() == GameState.SOLVED) {
+        //    bestTimes.addPlayerTime(System.getProperty("user.name"), getPlayingSeconds());  //prida hraca s menom a sekundami
+        //}
         System.out.println(bestTimes.toString());  //vypise tabulku
     }
 
-    public int getPlayingSeconds() {
-        return ((int) (System.currentTimeMillis() - startMillis) / 1000);
-    }
+
 
     /**
      * Main method.

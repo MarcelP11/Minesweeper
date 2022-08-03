@@ -33,6 +33,8 @@ public class Field {
      */
     private GameState state = GameState.PLAYING;
 
+    private long startMillis;
+
     /**
      * Constructor.
      *
@@ -118,6 +120,7 @@ public class Field {
     private void generate() {
         //throw new UnsupportedOperationException("Method generate not yet implemented");
         System.out.println("Hra sa zacina");
+        startMillis = System.currentTimeMillis();
         Random randomNumber = new Random();  //novy objekt triedy Random
 
         // naplnime ich minami
@@ -138,6 +141,7 @@ public class Field {
                 }
             }
         }
+        startMillis=System.currentTimeMillis();  //zapise sa cas po vygenerovani
         System.out.println();
     }
 
@@ -215,5 +219,11 @@ public class Field {
 
     public void setState(GameState state) {
         this.state = state;
+    }
+    public int getPlayTimeInSeconds() {
+        return ((int) (System.currentTimeMillis() - startMillis) / 1000);
+    }
+    public int getScore() {
+        return rowCount * columnCount * 10 - getPlayTimeInSeconds();
     }
 }

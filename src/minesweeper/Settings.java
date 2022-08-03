@@ -6,7 +6,7 @@ public class Settings implements Serializable {
     private final int rowCount;
     private final int columnCount;
     private final int mineCount;
-    private static final String SETTING_FILE = System.getProperty("user.home") + System.getProperty("file.separator" + "minesweeper.settings");
+    private static final String SETTING_FILE = System.getProperty("user.home") + System.getProperty("file.separator") + "minesweeper.settings";
 
     public int getRowCount() {
         return rowCount;
