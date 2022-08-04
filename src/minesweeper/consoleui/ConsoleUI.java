@@ -7,12 +7,15 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import entity.Comment;
 import entity.Score;
 import minesweeper.BestTimes;
 import minesweeper.Minesweeper;
 import minesweeper.Settings;
 import minesweeper.UserInterface;
 import minesweeper.core.*;
+import service.CommentService;
+import service.CommentServiceJDBC;
 import service.ScoreService;
 import service.ScoreServiceJDBC;
 
@@ -97,10 +100,17 @@ public class ConsoleUI implements UserInterface {
             }
         } while (true);
         Score player_score = new Score("Minesweeper", userName, gameScore, new Date());  //vytvorenie noveho objektu score
-        ScoreService service = new ScoreServiceJDBC();  //vytvorenie noveho objektu ScoreServiceJDBC
-        service.addScore(player_score); //pridanie casu
-        var scores = service.getBestScores("Minesweeper");
-        System.out.println(scores);  //vypis skore
+        ScoreService scoreService = new ScoreServiceJDBC();  //vytvorenie noveho objektu ScoreServiceJDBC
+        scoreService.addScore(player_score); //pridanie casu
+        var scores = scoreService.getBestScores("Minesweeper");
+        System.out.printf("\nTable of best players:\n%s\n\n", scores);  //vypis skore
+        System.out.println("Please write your comment:");
+        var userComment = readLine();
+        Comment player_comment = new Comment("Minesweeper", userName, userComment, new Date());
+        CommentService commentService = new CommentServiceJDBC();
+        commentService.addComment(player_comment);
+        var comments = commentService.getComments("Minesweeper");
+        System.out.println(comments);
         System.exit(0);
     }
 
