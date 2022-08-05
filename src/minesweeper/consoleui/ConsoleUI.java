@@ -8,16 +8,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import entity.Comment;
+import entity.Rating;
 import entity.Score;
 import minesweeper.BestTimes;
 import minesweeper.Minesweeper;
 import minesweeper.Settings;
 import minesweeper.UserInterface;
 import minesweeper.core.*;
-import service.CommentService;
-import service.CommentServiceJDBC;
-import service.ScoreService;
-import service.ScoreServiceJDBC;
+import service.*;
 
 import static minesweeper.core.Tile.State.OPEN;
 
@@ -111,6 +109,15 @@ public class ConsoleUI implements UserInterface {
         commentService.addComment(player_comment);
         var comments = commentService.getComments("Minesweeper");
         System.out.println(comments);
+        System.out.println("Please rate the game from 1 to 5:");
+        var userRating = Integer.parseInt((readLine()));
+        Rating player_rating = new Rating("Minesweeper", userName, userRating, new Date());
+        RatingService ratingService = new RatingServiceJDBC();
+        ratingService.setRating(player_rating);
+        var averageRating = ratingService.getAverageRating("Minesweeper");
+        System.out.println("Average rating of game Minesweeper is: " + averageRating);
+
+
         System.exit(0);
     }
 
