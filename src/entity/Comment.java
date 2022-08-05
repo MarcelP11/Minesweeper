@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.Date;
+import java.util.Formatter;
 
 public class Comment {
     private String game;
@@ -17,12 +18,15 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "Comment{" +
-                "game='" + game + '\'' +
-                ", username='" + username + '\'' +
-                ", comment='" + comment + '\'' +
-                ", commentedOn=" + commentedOn +
-                '}';
+        Formatter f = new Formatter();
+        f.format("%s   %s    %s\n", username, comment,commentedOn);
+        return f.toString();
+//        return "Comment{" +
+//                "game='" + game + '\'' +
+//                ", username='" + username + '\'' +
+//                ", comment='" + comment + '\'' +
+//                ", commentedOn=" + commentedOn +
+//                '}';
     }
 
     public String getGame() {

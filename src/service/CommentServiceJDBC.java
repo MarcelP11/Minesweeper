@@ -14,7 +14,7 @@ public class CommentServiceJDBC implements CommentService {
     private static final String JDBC_PASSWORD = "postgres";
     private static final String STATEMENT_ADD_COMMENT = "INSERT INTO comment VALUES (?,?,?,?)";
     private static final String STATEMENT_GET_NEW_COMMENTS = "SELECT game,userName,comment,commented_on FROM comment WHERE game = ? ORDER BY commented_on ASC LIMIT 5";
-    private static final String STATEMENT_RESET = "DELETE * FROM comment";
+    private static final String STATEMENT_RESET = "DELETE FROM comment";
 
     @Override
     public void addComment(Comment comment) {
@@ -40,6 +40,7 @@ public class CommentServiceJDBC implements CommentService {
                 while (rs.next()) {
                     comments.add(new Comment(rs.getString(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4)));
                 }
+
                 return comments;
             }
         } catch (SQLException e) {
