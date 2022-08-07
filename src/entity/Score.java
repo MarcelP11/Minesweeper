@@ -2,6 +2,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Formatter;
 
 public class Score implements Serializable {
     private String game;
@@ -18,12 +19,16 @@ public class Score implements Serializable {
 
     @Override
     public String toString() {
-        return "Score{" +
-                "game='" + game + '\'' +
-                ", username='" + username + '\'' +
-                ", points=" + points +
-                ", playedOn=" + playedOn +
-                '}';
+        Formatter f = new Formatter();
+        f.format("%-40s%-40s%s\n", username, points,playedOn);
+        return f.toString();
+
+//        return "Score{" +
+//                "game='" + game + '\'' +
+//                ", username='" + username + '\'' +
+//                ", points=" + points +
+//                ", playedOn=" + playedOn +
+//                '}';
     }
 
     public String getGame() {

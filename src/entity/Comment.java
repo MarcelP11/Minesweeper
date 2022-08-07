@@ -19,7 +19,7 @@ public class Comment {
     @Override
     public String toString() {
         Formatter f = new Formatter();
-        f.format("%s   %s    %s\n", username, comment,commentedOn);
+        f.format("%-40s%-40s%s\n", username, comment,commentedOn);  //medzera k dalsej polozke bude 40 od najmensej ostatne sa zarovnaju
         return f.toString();
 //        return "Comment{" +
 //                "game='" + game + '\'' +

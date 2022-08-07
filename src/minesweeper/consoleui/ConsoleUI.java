@@ -61,8 +61,9 @@ public class ConsoleUI implements UserInterface {
     public void newGameStarted(Field field) {
         int gameScore = 0;
         this.field = field;
-        System.out.println("Please enter your name:");
-        userName = readLine();
+        processInputUsername();
+//     System.out.println("Please enter your name:");
+//        userName = readLine();
         System.out.println("Select difficult level: 1 - BEGINNER, 2 - INTERMEDIATE, 3 - EXPERT");
         String level = readLine();
         if (level != null && !level.equals("")) {
@@ -102,20 +103,22 @@ public class ConsoleUI implements UserInterface {
         scoreService.addScore(player_score); //pridanie casu
         var scores = scoreService.getBestScores("Minesweeper");
         System.out.printf("\nTable of best players:\n%s\n\n", scores);  //vypis skore
-        System.out.println("Please write your comment:");
-        var userComment = readLine();
-        Comment player_comment = new Comment("Minesweeper", userName, userComment, new Date());
-        CommentService commentService = new CommentServiceJDBC();
-        commentService.addComment(player_comment);
-        var comments = commentService.getComments("Minesweeper");
-        System.out.println(comments);
-        System.out.println("Please rate the game from 1 to 5:");
-        var userRating = Integer.parseInt((readLine()));
-        Rating player_rating = new Rating("Minesweeper", userName, userRating, new Date());
-        RatingService ratingService = new RatingServiceJDBC();
-        ratingService.setRating(player_rating);
-        var averageRating = ratingService.getAverageRating("Minesweeper");
-        System.out.println("Average rating of game Minesweeper is: " + averageRating);
+        processInputComment();
+//        System.out.println("Please write your comment:");
+//        var userComment = readLine();
+//        Comment player_comment = new Comment("Minesweeper", userName, userComment, new Date());
+//        CommentService commentService = new CommentServiceJDBC();
+//        commentService.addComment(player_comment);
+//        var comments = commentService.getComments("Minesweeper");
+//        System.out.println(comments);
+        processInputRate();
+//        System.out.println("Please rate the game from 1 to 5:");
+//        var userRating = Integer.parseInt((readLine()));
+//        Rating player_rating = new Rating("Minesweeper", userName, userRating, new Date());
+//        RatingService ratingService = new RatingServiceJDBC();
+//        ratingService.setRating(player_rating);
+//        var averageRating = ratingService.getAverageRating("Minesweeper");
+//        System.out.println("Thank you for your rating. Average rating of game Minesweeper is: " + averageRating);
 
 
         System.exit(0);
@@ -227,6 +230,84 @@ public class ConsoleUI implements UserInterface {
             // System.out.println("Wrong input. Try again.");  //ak zada zle vypise sa do konzoly informacia pre uzivatela
             //readLine();  //znova sa spusti funkcia na citanie vstupu od uzivatela - netreba
             // }
+        }
+    }
+
+    public void handleInputComment(String inputComment) throws WrongFormatException{
+        Pattern pattern = Pattern.compile(".{1,64}");
+        Matcher matcher = pattern.matcher(inputComment);
+        if (matcher.matches()){
+            Comment player_comment = new Comment("Minesweeper", userName, inputComment, new Date());
+            CommentService commentService = new CommentServiceJDBC();
+            commentService.addComment(player_comment);
+            var comments = commentService.getComments("Minesweeper");
+            System.out.println(comments);
+        }else{
+            throw new WrongFormatException("Wrong input. Please insert at least one character. Maximum length of comment is 64 characters.");
+        }
+    }
+
+    private void processInputComment() {
+        // throw new UnsupportedOperationException("Method processInput not yet implemented");
+        System.out.println("Please write your comment:");
+        var userComment = readLine();
+        try {
+            handleInputComment(userComment);   //zavolam funkciu ktora sa skusa a v ktorej je novy objekt vynimky pri if kde by mala byt chyba
+        } catch (
+                WrongFormatException e) {  //ak sa vygeneruje chyba tak ju sem zachytime a v tomto bloku sa vypise na obrazovku obsah spravy chyby
+            System.out.println(e.getMessage());
+            processInputComment(); //ak vyskoci chyba tak chceme nanovo spracovat vstup
+        }
+    }
+
+    public void handleInputUsername(String inputUsername) throws WrongFormatException{
+        Pattern pattern2 = Pattern.compile(".{1,64}");
+        Matcher matcher2 = pattern2.matcher(inputUsername);
+        if (matcher2.matches()) {
+            userName=inputUsername;
+        }else{
+            throw new WrongFormatException("Wrong input. Please insert at least one character. Maximum length of username is 64 characters.");
+        }
+    }
+
+    private void processInputUsername() {
+        // throw new UnsupportedOperationException("Method processInput not yet implemented");
+        System.out.println("Please enter your name:");
+        String usernameToCheck = readLine();
+        try {
+            handleInputUsername(usernameToCheck);   //zavolam funkciu ktora sa skusa a v ktorej je novy objekt vynimky pri if kde by mala byt chyba
+        } catch (
+                WrongFormatException e) {  //ak sa vygeneruje chyba tak ju sem zachytime a v tomto bloku sa vypise na obrazovku obsah spravy chyby
+            System.out.println(e.getMessage());
+            processInputUsername(); //ak vyskoci chyba tak chceme nanovo spracovat vstup
+        }
+    }
+
+    public void handleInputRate(String inputRate) throws WrongFormatException{
+        Pattern pattern = Pattern.compile("[1,2,3,4,5]{1}");
+        Matcher matcher = pattern.matcher(inputRate);
+        if (matcher.matches()){
+            Rating player_rating = new Rating("Minesweeper", userName, Integer.parseInt(inputRate), new Date());
+            RatingService ratingService = new RatingServiceJDBC();
+            ratingService.setRating(player_rating);
+            var averageRating = ratingService.getAverageRating("Minesweeper");
+            System.out.println("Thank you for your rating. Average rating of game Minesweeper is: " + averageRating);
+        }else{
+            throw new WrongFormatException("Wrong input. Please rate from 1 to 5.");
+        }
+    }
+
+    private void processInputRate() {
+        // throw new UnsupportedOperationException("Method processInput not yet implemented");
+        System.out.println("Please rate the game from 1 to 5:");
+        var userRating = readLine();
+
+        try {
+            handleInputRate(userRating);   //zavolam funkciu ktora sa skusa a v ktorej je novy objekt vynimky pri if kde by mala byt chyba
+        } catch (
+                WrongFormatException e) {  //ak sa vygeneruje chyba tak ju sem zachytime a v tomto bloku sa vypise na obrazovku obsah spravy chyby
+            System.out.println(e.getMessage());
+            processInputRate(); //ak vyskoci chyba tak chceme nanovo spracovat vstup
         }
     }
 }
