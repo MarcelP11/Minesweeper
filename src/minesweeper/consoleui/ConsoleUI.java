@@ -10,14 +10,10 @@ import java.util.regex.Pattern;
 import entity.Comment;
 import entity.Rating;
 import entity.Score;
-import minesweeper.BestTimes;
 import minesweeper.Minesweeper;
-import minesweeper.Settings;
 import minesweeper.UserInterface;
 import minesweeper.core.*;
 import service.*;
-
-import static minesweeper.core.Tile.State.OPEN;
 
 /**
  * Console user interface.
@@ -44,6 +40,8 @@ public class ConsoleUI implements UserInterface {
      *
      * @return line as a string
      */
+
+    private Settings setting;
     private String readLine() {
         try {
             return input.readLine();
@@ -74,7 +72,8 @@ public class ConsoleUI implements UserInterface {
                     case 3 -> Settings.EXPERT;
                     default -> Settings.BEGINNER;
                 };
-                Minesweeper.getInstance().setSetting(s);
+                this.setting = s;
+                this.setting.save();
                 this.field = new Field(s.getRowCount(), s.getColumnCount(), s.getMineCount());
             } catch (NumberFormatException e) {
                 //empty naschval
@@ -91,7 +90,6 @@ public class ConsoleUI implements UserInterface {
             if (fieldState == GameState.SOLVED) {  //ak hrac vyhral hru vypise sa text o vyhre a skonci sa hra
                 gameScore = this.field.getScore();
                 System.out.println(userName + " ,you win!!! Your score is: " + gameScore + ".");
-                System.out.println(Minesweeper.getInstance().getBestTimes());
                 break;
             } else if (fieldState == GameState.FAILED) {  //ak hrac prehral vypise sa text a skonci sa hra
                 System.out.println(userName + ", you jumped on mine!!! You lose. Your score is " + gameScore + ".");
@@ -310,5 +308,36 @@ public class ConsoleUI implements UserInterface {
             processInputRate(); //ak vyskoci chyba tak chceme nanovo spracovat vstup
         }
     }
+
+    @Override
+    public void play(){
+         setting=Settings.load();//premenna setting bude mat navratovu hodnotu metody load v triede Settings
+
+
+        //setLevel();  //spusti sa metoda pre nastavenie levelu od pouzivatela, presunute do consoleUI
+        //setting.save();  //musi sa ulozit stav
+
+        Field field = new Field(setting.getRowCount(), setting.getColumnCount(), setting.getMineCount());  //nastavime hodnoty pola podla toho co je v nastaveni
+        newGameStarted(field);
+    }
+/*
+    public void setLevel(){//nastavenie urovne zo vstupu
+        System.out.println("Zvol si uroven: 1 - BEGINNER, 2 - INTERMEDIATE, 3 - EXPERT");
+        String inputLevel = readLine();
+        switch (inputLevel){
+            case "1": setting= Settings.BEGINNER;  //ak je jednotka tak sa nastavi BEGINNER atd
+                break;
+            case "2": setting=Settings.INTERMEDIATE;
+                break;
+            case "3": setting=Settings.EXPERT;
+                break;
+            default: setting=getSetting();  //ak sa nezhoduje vstup ani s jednym tak ostane aktualna hodnota
+        }
+        this.setting = setting;
+        this.setting.save();
+
+    }
+    */
+
 }
 
