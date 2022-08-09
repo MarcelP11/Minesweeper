@@ -98,8 +98,13 @@ public class ConsoleUI implements UserInterface {
         } while (true);
         Score player_score = new Score("Minesweeper", userName, gameScore, new Date());  //vytvorenie noveho objektu score
         ScoreService scoreService = new ScoreServiceJDBC();  //vytvorenie noveho objektu ScoreServiceJDBC
-        scoreService.addScore(player_score); //pridanie casu
-        var scores = scoreService.getBestScores("Minesweeper");
+try{
+    scoreService.addScore(player_score); //pridanie casu
+}catch(Exception e){
+    System.out.println("Score not written to the database. ("+e.getMessage()+")");
+}
+
+        var scores = scoreService.getBestScores("Minesweeper");  //dat do osobitneh metody pre vypis
         System.out.printf("\nTable of best players:\n%s\n\n", scores);  //vypis skore
         processInputComment();
 //        System.out.println("Please write your comment:");
